@@ -1,0 +1,10 @@
+Usage: ./a.exe cpstest3
+Use correct folder name
+
+CPS Test 0: Easy choice
+- Expected Result: W1: B1
+CPS Test 1: Easy choice to fill
+- Expected Result: W1: B1, W2, B1
+CPS Test 3: Two buildings with lower CPS perform better than one with higher CPS
+- Expected Result: W1: Half1, W2: Half1, W3: Half2
+CPS Test 4: 
