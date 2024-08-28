@@ -28,7 +28,7 @@ def generateClusters(buildings):		# jobs df not needed
 	# print(sets)
 	return sets
 
-# state = [{'Building': Building()}, [int]]
+# state = [int, {'Building': Building()}]
 def printState(curr):
 	print('\nState:')
 	max = 0
@@ -38,7 +38,7 @@ def printState(curr):
 
 	for key in curr[0+max]:
 		print(key, curr[0+max][key],end=', ')
-	print(curr[1+max])
+	# print(curr[1+max])
 
 # can do individual clusters of permutations
 class Cluster:
@@ -48,7 +48,7 @@ class Cluster:
 		self.qbmap = qbmap
 		self.qpmap = qpmap
 		
-		self.max = [0, {}, {}]
+		self.max = [0, {}]
 		self.done = False
 
 		# print(self.qbmap, self.qpmap)
@@ -63,13 +63,16 @@ class Cluster:
 		reversed(buildings)
 		for key in buildings:
 			ret += key + ' : ' + str(buildings[key]) + ', '
-		ret = ret[:-2] + '}\nPeople: {'
-
-		# print people
-		people = copy.deepcopy(self.max[2])
-		for key in people:
-			ret += key + ' : ' + people[key] + ', '
 		ret = ret[:-2] + '}\n'
+		
+		# if len(self.max[2]) > 0:
+		# 	ret += 'People: {'
+
+		# 	# print people
+		# 	people = copy.deepcopy(self.max[2])
+		# 	for key in people:
+		# 		ret += key + ' : ' + people[key] + ', '
+		# 	ret = ret[:-2] + '}\n'
 		
 		return f"{ret}"
 
@@ -137,7 +140,7 @@ class Cluster:
 			if val > self.max[0]:
 				self.max[0] = val
 				self.max[1] = copy.deepcopy(curr[0])
-				self.max[2] = dict(curr[1])
+				# self.max[2] = dict(curr[1])
 			return
 		
 		# iterative step: set one of the jobs to a building, then recursively iterate through the rest
@@ -170,7 +173,7 @@ class Cluster:
 		for i in people:
 			if int(self.jobs.loc[i[:-1]]['Options']) == 1:
 				ez_people[i] = self.jobs.loc[i[:-1]]['Workplace1']
-				self.max[2][i] = ez_people[i]
+				# self.max[2][i] = ez_people[i]
 				
 				builds[ez_people[i]].insertJob(i)
 				self.max[1][ez_people[i]].insertJob(i)
@@ -211,8 +214,8 @@ class Cluster:
 		self.recursion(tuple(builds.keys()), tuple(people.keys()), curr, count=count)
 		print('Finished recursion')
 
-		for i in ez_people:
-			self.max[2][i] = ez_people[i]
+		# for i in ez_people:
+		# 	self.max[2][i] = ez_people[i]
 
 		# printState(self.max)
 		self.done = True
