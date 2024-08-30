@@ -115,5 +115,3 @@ for i in clusters:
 		print('This cluster results in:\n', c, '\n', end='')
 
 # TODO: find a way to decrease the needed results by a LOT
-# attempt: dp so we don't need to recalculate?
-# or we can start stacking jobs back to normal (only one key per job type)

@@ -1,5 +1,6 @@
 import copy
 import pandas as pd
+import time
 
 def generateClusters(buildings):		# jobs df not needed
 	# filter through data to get clusters to work on individually rather than as a whole
@@ -83,30 +84,30 @@ class Cluster:
 			self.jobs = [set() for i in range(int(num))]
 		def __str__(self):
 			return f"{self.jobs}"
-		def len(self):
+		def __len__(self):
 			return len(self.jobs)
 		
 
 		# input: job that we want to assign
 		# returns True if success, False if fail
 		# no need to error check since jobs will be selected by those whose workplace is here
-		def insertJob(self, j):
+		def insertJob(self, j: str) -> bool:
 			for i in range(len(self.jobs)):
-				if j[:-1] not in self.jobs[i]:
-					self.jobs[i].add(j[:-1])
+				if j not in self.jobs[i]:
+					self.jobs[i].add(j)
 					return True
 			return False
 		
 		# input: job that we want to assign
 		# returns True if success, False if fail
-		def removeJob(self, j):
+		def removeJob(self, j: str) -> bool:
 			for i in range(len(self.jobs)-1, -1, -1):
-				if j[:-1] in self.jobs[i]:
-					self.jobs[i].remove(j[:-1])
+				if j in self.jobs[i]:
+					self.jobs[i].remove(j)
 					return True
 			return False
 		
-		def getCPS(self, name):
+		def getCPS(self, name) -> int:
 			sum = 0
 			for i in self.jobs:
 				# print(name, i)
@@ -121,7 +122,52 @@ class Cluster:
 					sum += int(self.buildings.loc[name]['MaxCPS'])
 			return sum
 
-	def calcCPS(self, bdict):
+	# do the jobs that only have one workplace first, or if we have a one-to-one quantity
+	# will automatically update self.max
+	def filterEasy(self, builds, people):
+		# preload the buildings with the no-brainer options
+		# append the no-brainers to the phash at the end
+		ez_people = {}		# dict for all no-brainers
+		poplist = []
+		for i in people:
+			workplaces = self.jobs.loc[i[:-1]]['Workplace1':'Workplace3']
+			if int(self.jobs.loc[i[:-1]]['Options']) == 1:
+				ez_people[i] = workplaces[0]
+				# self.max[2][i] = ez_people[i]
+				
+				builds[ez_people[i]].insertJob(i[:-1])
+				self.max[1][ez_people[i]].insertJob(i[:-1])
+				poplist.append(i)
+				
+		for i in poplist:
+			people.pop(i)
+		return ez_people
+	
+	# if qperson == qbuildings they can be assigned, do those
+	def filterFit(self, builds, qpmap):
+		# count = []
+		poplist = []
+		for i in qpmap:
+			count = []
+			workplaces = self.jobs.loc[i]['Workplace1':'Workplace3'].dropna().to_list()
+			for w in workplaces:					# get the number of buildings (quantity) that this person can go to
+				count.append(len(builds[w])) if w in builds else count.append(0)
+			print(i, count)
+			if sum(count) == qpmap[i]:
+				for c in range(len(count)):
+					if workplaces[c] in builds:
+						while count[c] > 0:
+							builds[workplaces[c]].insertJob(i)
+							self.max[1][workplaces[c]].insertJob(i)
+							count[c] -= 1
+							qpmap[i] -= 1
+				poplist.append(i)
+
+		for i in poplist:
+			qpmap.pop(i)
+		# return ez_people
+
+	def calcCPS(self, bdict) -> int:
 		sum = 0
 		for i in bdict:
 			sum += bdict[i].getCPS(i)
@@ -146,12 +192,12 @@ class Cluster:
 		# iterative step: set one of the jobs to a building, then recursively iterate through the rest
 		
 		workplaces = self.jobs.loc[plist[iter][:-1]]['Workplace1':'Workplace3'].dropna().to_list()
-		workplaces = [''] + workplaces				# assume every person will have a place to go
+		# workplaces = [''] + workplaces				# assume every person will not have a place to go
 
 		for w in workplaces:
 			if not pd.isna(w):
 			
-				if w in blist and curr[0][w].insertJob(plist[iter]):			# add job to building. make sure assignment worked
+				if w in blist and curr[0][w].insertJob(plist[iter][:-1]):			# add job to building. make sure assignment worked
 					curr[1][plist[iter]] = w
 
 				# printState(curr)
@@ -160,28 +206,10 @@ class Cluster:
 				self.recursion(blist, plist, curr, iter+1, count)
 
 				if w in blist:
-					curr[0][w].removeJob(plist[iter])
+					curr[0][w].removeJob(plist[iter][:-1])
 					curr[1][plist[iter]] = ''
 
-	# do the jobs that only have one workplace first
-	# will automatically update self.max
-	def filterEasy(self, builds, people):
-		# preload the buildings with the no-brainer options
-		# append the no-brainers to the phash at the end
-		ez_people = {}		# dict for all no-brainers
-		poplist = []
-		for i in people:
-			if int(self.jobs.loc[i[:-1]]['Options']) == 1:
-				ez_people[i] = self.jobs.loc[i[:-1]]['Workplace1']
-				# self.max[2][i] = ez_people[i]
-				
-				builds[ez_people[i]].insertJob(i)
-				self.max[1][ez_people[i]].insertJob(i)
-				poplist.append(i)
-		for i in poplist:
-			people.pop(i)
-		return ez_people
-	
+
 	# input: building_data, job_data, building_quantity, people_quantity
 	def getMax(self):
 		if self.done:
@@ -194,11 +222,14 @@ class Cluster:
 			builds[b] = temp
 		self.max[1] = copy.deepcopy(builds)
 
+		qpmap = dict(self.qpmap)
+		self.filterFit(builds, qpmap)
+
 		people = {}
-		for p in self.qpmap.keys():
-			while self.qpmap[p] > 0:
-				people[p+str(int(self.qpmap[p]))] = ''
-				self.qpmap[p] -= 1
+		for p in qpmap.keys():
+			while qpmap[p] > 0:
+				people[p+str(int(qpmap[p]))] = ''
+				qpmap[p] -= 1
 
 		ez_people = self.filterEasy(builds, people)		# filter the easy ones out
 
@@ -207,12 +238,16 @@ class Cluster:
 		
 		total = 1
 		for i in people:
-			total *= float(self.jobs.loc[i[:-1]]['Options'] + 1)			# +1 for empty
+			num = float(self.jobs.loc[i[:-1]]['Options'])
+			# num += 1.0				# +1 for empty
+			total *= num
 		print('Need to generate',total,'cases.')
 		count = [0, total]				# show a load time
 		# put it into recursion
+		self.start_time = time.time()
 		self.recursion(tuple(builds.keys()), tuple(people.keys()), curr, count=count)
 		print('Finished recursion')
+		print('Total time:', time.time()-self.start_time)
 
 		# for i in ez_people:
 		# 	self.max[2][i] = ez_people[i]
