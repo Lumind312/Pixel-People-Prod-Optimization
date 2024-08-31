@@ -152,7 +152,6 @@ class Cluster:
 			workplaces = self.jobs.loc[i]['Workplace1':'Workplace3'].dropna().to_list()
 			for w in workplaces:					# get the number of buildings (quantity) that this person can go to
 				count.append(len(builds[w])) if w in builds else count.append(0)
-			print(i, count)
 			if sum(count) == qpmap[i]:
 				for c in range(len(count)):
 					if workplaces[c] in builds:

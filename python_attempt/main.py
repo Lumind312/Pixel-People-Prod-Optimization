@@ -102,16 +102,18 @@ for i in clusters:
 		if x in qpmap.keys():
 			pdict[x] = qpmap[x]
 
-	
-	# print('Make cluster with:\n', bdict, pdict)
-	print('bdict_size', len(bdict), 'pdict_size', len(pdict))
-
 	if len(bdict) < 1 or len(pdict) < 1:
 		pass
 		# print('Will not calculate empty sets')
 	else:
+		print('Make cluster with:\n', bdict, pdict)
+		print('bdict_size', len(bdict), 'pdict_size', len(pdict))
 		c = Cluster.Cluster(buildings, jobs, bdict, pdict)
 		c.getMax()
 		print('This cluster results in:\n', c, '\n', end='')
 
 # TODO: find a way to decrease the needed results by a LOT
+# Probably will have to fix with math.
+# Can maybe do a queue to get people out of the way
+# Sort into groups by value (CPS or TC), then do recursions on those?
+# Any leftover buildings can go back into the pile with reduced value based on multiplier
