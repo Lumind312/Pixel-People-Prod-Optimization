@@ -55,7 +55,8 @@ map<string,int> CSVReader::getMapFromCSV(const string& filename) const {
 
 // add new column with max number of people in buildings or max options of possible buildings per people
 // true if for buildings, false if for jobs
-vector<vector<string>> CSVReader::getDataframeFromCSV(const string& filename) const {
+map<string,vector<string>> CSVReader::getDataframeFromCSV(const string& filename) const {
+	map<string, vector<string>> m;
 	auto df = readCSV(filename);
 	bool build_job = (filename.at(0) == 'b');
 
@@ -68,40 +69,8 @@ vector<vector<string>> CSVReader::getDataframeFromCSV(const string& filename) co
 		for (unsigned j = start; j <= end; j++)
 			count += !df[i][j].empty();
 		df.at(i).push_back(to_string(count));
+		m[df.at(i).at(Name)] = df.at(i);
 	}
 
-	return df;
-}
-
-void printDF(const vector<vector<string>>& df, const string& label) {
-	cout << label << ":\n";
-	for (unsigned i = 0; i < df.size(); i++) {
-		cout << "[";
-		for (unsigned j = 0; j < df.at(i).size(); j++) {
-			if (j != 0)
-				cout << ", ";
-			if (df[i][j].empty()) {
-				cout << "null";
-			}
-			else
-				cout << df[i][j];
-		}
-		cout << "]";
-		if (i+1 != df.size()) {
-			cout << ",";
-		}
-		cout << "\n";
-	}
-	cout << endl;
-}
-void printMap(const map<string,int>& m, const string& label) {
-	cout << label << ":\n";
-	cout << "{";
-	for (map<string,int>::const_iterator i = m.begin(); i != m.end(); i++) {
-		if (i != m.begin())
-			cout << ", ";
-		cout << i->first << ":" << i->second;
-	}
-	cout << "}\n";
-	cout << endl;
+	return m;
 }

@@ -6,8 +6,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#include "Prints.h"
 #include "CSVReader.h"
-// #include "Cluster.h"
+#include "Cluster.h"
 
 // const int MAX_WORKERS = 6;
 // const int MAX_JOBS = 3;
@@ -26,7 +27,44 @@ int main(int argc, char* argv[]) {
 	auto jobs = reader.getDataframeFromCSV("jobs.csv");
 	auto qbmap = reader.getMapFromCSV("qbuilding.csv");
 	auto qpmap = reader.getMapFromCSV("qpeople.csv");
+	cout << "Read in data.\n";
 
+	// make clusters based on data given
+	vector<set<string>> clusters = generateClusters(buildings);
+	/* cout << "Clusters:\n";
+	for (unsigned i = 0; i < clusters.size(); i++) {
+		cout << setToStr(clusters.at(i));
+	}
+	*/
+
+	// finally, create qmaps of buildings and people, and use the clusters to generate the max value + config
+	map<string, int> bdict, pdict;
+	for (unsigned i = 0; clusters.size(); i++) {		// first one will always be mechanic, which has a cps of 0
+		bdict.clear();
+		pdict.clear();
+
+		for (auto x: clusters.at(i)) {
+			if (qbmap.find(x) != qbmap.end())
+				bdict[x] = qbmap[x];
+			if (qpmap.find(x) != qpmap.end())
+				pdict[x] = qpmap[x];
+		}
+		if (bdict.size() < 1 || pdict.size() < 1) {
+			continue;
+		}
+		// else
+		// if (pdict.size() < 100) {		// temporarily don't calculate the big one
+		cout << "Make cluster with:\n";
+		cout << "bdict_size: " << bdict.size() << " | pdict_size: "<< pdict.size() << endl;
+		// printMap(bdict);
+		// printMap(pdict);
+
+		Cluster c = Cluster(&buildings, &jobs, bdict, pdict);	
+		cout << c.str() << endl;
+		// }
+	}
 
 	return 0;
 }
+
+// No recursion! Instead, have a queue based on multiplier (and x2 multipliers). If we have a x2 mult and can't fill, cancel the process and throw the normal one back into the queue

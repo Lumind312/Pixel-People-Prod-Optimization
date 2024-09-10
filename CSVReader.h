@@ -4,8 +4,7 @@
 #include <vector>
 #include <string>
 #include <map>
-void printDF(const std::vector<std::vector<std::string>>&, const std::string& = "");
-void printMap(const std::map<std::string,int>&, const std::string& = "");
+
 class CSVReader {
   private:
 	std::string test;
@@ -14,7 +13,7 @@ class CSVReader {
 
   public:
 	CSVReader(const std::string&);
-	std::vector<std::vector<std::string>> getDataframeFromCSV(const std::string&) const;
+	std::map<std::string, std::vector<std::string>> getDataframeFromCSV(const std::string&) const;
 	std::map<std::string,int> getMapFromCSV(const std::string&) const;
 };
 
