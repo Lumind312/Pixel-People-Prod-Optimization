@@ -1,10 +1,30 @@
-Usage: ./a.exe cpstest3
+Usage: python main.py cpstest3
 Use correct folder name
 
 CPS Test 0: Easy choice
-- Expected Result: W1: B1
+- Expected Result: 2 | Apple: [Alex], Banana: []
 CPS Test 1: Easy choice to fill
-- Expected Result: W1: B1, W2, B1
+- Expected Result: 4 | Apple: [Alex, Brady], Banana: []
+CPS Test 2: Two correct solutions
+- Expected Result: 4 | Apple: [Alex, Brady], Banana: [], Cherry: []
+- Expected Result: 4 | Apple: [], Banana: [Alex], Cherry: [Brady]
+
 CPS Test 3: Two buildings with lower CPS perform better than one with higher CPS
-- Expected Result: W1: Half1, W2: Half1, W3: Half2
-CPS Test 4: 
+- Expected Result: 8 | Apple: [], Banana: [Alex, Brady], Cherry: [Chris, David]
+CPS Test 4: Lower CPS building is filled, and pulling to a higher CPS building creates an increase
+- Expected Result: 12 | Apple: [Alex, Brady, Chris], Banana: []
+CPS Test 5: Lower CPS building is filled, and pulling to a higher CPS building creates a decrease
+	Also happens to test what happens when more than one person is pulled out at a time.
+- Expected Result: 8 | Apple: [], Banana: [Alex, Brady, Chris, David]
+CPS Test 6: Lower CPS building is filled, and pulling to a higher CPS building creates no change
+- Expected Result: 
+
+Found Error 0: Lower CPS building is filled, and pulling to a higher CPS building creates an increase. Attempted CPS Test 5, and problem came up
+- Expected Result: 13 | Apple: [Alex, Brady, Chris], Banana: [David]
+Found Error 1 (Unused): Found error where decreasing building cps can go in the negatives, and increasing can go past the max.
+- Expected Result: 0 | 
+Found Error 2: If two buildings have the same cps for a person, put the person in a higher maxCPS to limit the number of energy refills I need to do.
+- Expected Result: 44 | Fortune Teller: [], Circus: [Clown, Ringmaster, Magician, Genie], Tavern: [Bartender, Buccaneer, Time Traveller, Deep Sea Diver, Genie, Cryptozoologist]
+Found Error 3: Incorrect result. Shows 1020, but I was able to produce 1027.
+- Expected Result: 1027 | {4: 4, 6: 46, 8: 34, 10: 25, 12: 195, 16: 8, 18: 171, 20: 24, 24: 271, 40: 50, 32: 8, 36: 87, 40: 8, 96: 96}
+Found Error 4: Poet does not assign for Cafe.

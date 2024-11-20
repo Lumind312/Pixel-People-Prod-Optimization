@@ -1,6 +1,5 @@
 Building name,Time (mins)
 Template,60
-Inn,40
 Rail Terminal,120
 Tech Support,40
 Toy Factory,40
@@ -54,7 +53,6 @@ Hotel Utopia,30
 Museum,40
 Laboratory,40
 Astro Church,40
-Dating Agency,40
 Funeral Parlor,40
 Wooded Cabin,60
 Courthouse,60
@@ -79,7 +77,6 @@ Island,120
 Park,10
 Utopia HQ,40
 Post Office,40
-Ice Cream Stand,40
 School of Magic,60
 Hedge Fund,60
 Photo Shop,60
@@ -101,7 +98,6 @@ Swimming Pool,30
 Dance Studio,30
 Auto Shop,30
 Cave,30
-Arena,30
 Lumber Mill,60
 Law Firm,60
 Space Admin,60
