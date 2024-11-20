@@ -7,7 +7,7 @@ Pixel People is a game where you splice two different jobs together to get a new
 * This will be very slow. Assuming that each job can go into a maximum of 3 jobs, that would be a space complexity of O(3^*n*), where *n* is 430. So let's not.
 
 ## Attempted solution 2:
-* Smarter approach: Many of the jobs won't overlap with each other. Some groups of jobs only have 1 or 2 buildings that they can all go to. This can cut down *n* in permutations. Try clustering all buildings and jobs that are actually related to each other. Think of each job and building as a single node in a graph. Not all of the graphs connect with each other. This should cut down the runtime for each permutation calculation by a lot.
+* Smarter approach: Many of the jobs won't overlap with each other. Some groups of jobs only have 1 or 2 buildings that they can all go to. This can cut down *n* in permutations. Try clustering all buildings and jobs that are actually related to each other. Think of each job and building as a single node in a graph. Not all of the graphs connect with each other. This should cut down the runtime for each permutation calculation by a lot.<br>
 Problem: 40 clusters were created. Most of them were less than 10 nodes in size. However, the final cluster still had 123 jobs to go through. That's 3^{123} permutations. Still too many.
 
 ## Attempted solution 3: Priority queue iterating through 2m buildings.
@@ -18,10 +18,10 @@ Problem: We don't currently have a way to determine if two buildings of a lower 
 * For each building, see if we can completely fill the building. A x2 multiplier will activate for the building if every position is filled. For each worker, we want to see if A) we have the worker and B) if removing the worker and adding them to the current building will create a net increase in CPS. If we have every worker and filling the building has a net increase on total CPS, we can pull each worker out of their previous location (update other workers' multipliers if the building is not full anymore) and put them in the current building.
 * This operation should be hypothetical to start with. It should be a check. If we don't actually have everyone needed or there is an overall decrease by doing this operation, we shouldn't do it at all.
 * If we don't have a full building, we can still try to reassign people for a net increase. We just don't get to use the x2 bonus.
-* * If the person we are trying to assign doesn't have a previous job, we can put them to work immediately.
-* * If they do have a previous job, try to see if it creates a net increase using the condition described above.
+  * If the person we are trying to assign doesn't have a previous job, we can put them to work immediately.
+  * If they do have a previous job, try to see if it creates a net increase using the condition described above.
 
-* With this method, we will never decrease CPS as we look at and attempt to populate each building.
+* With this method, we will never decrease CPS as we look at and attempt to populate each building.<br>
 Problem: the combination of two buildings' CPS can outweigh another building's CPS. Or vise versa. Then we'd have to revert changes made before.
 
 One problem that was encountered was when pulling numerous people out of a fully-populated building, cps would drop way below 0. This was because the calculation did not "remove" a person when removing cps. To fix this, I used a set to make sure that we don't reduce cps by half for every person removed.
