@@ -7,7 +7,8 @@ Pixel People is a game where you splice two different jobs together to get a new
 * This will be very slow. Assuming that each job can go into a maximum of 3 jobs, that would be a space complexity of O(3^*n*), where *n* is 430. So let's not.
 
 ## Attempted solution 2:
-* Smarter approach: Many of the jobs won't overlap with each other. Some groups of jobs only have 1 or 2 buildings that they can all go to. This can cut down *n* in permutations. Try clustering all buildings and jobs that are actually related to each other. Think of each job and building as a single node in a graph. Not all of the graphs connect with each other. This should cut down the runtime for each permutation calculation by a lot.<br>
+* Smarter approach: Many of the jobs won't overlap with each other. Some groups of jobs only have 1 or 2 buildings that they can all go to. This can cut down *n* in permutations. Try clustering all buildings and jobs that are actually related to each other. Think of each job and building as a single node in a graph. Not all of the graphs connect with each other. This should cut down the runtime for each permutation calculation by a lot.
+
 Problem: 40 clusters were created. Most of them were less than 10 nodes in size. However, the final cluster still had 123 jobs to go through. That's 3^{123} permutations. Still too many.
 
 ## Attempted solution 3: Priority queue iterating through 2m buildings.
@@ -22,18 +23,22 @@ Problem: We don't currently have a way to determine if two buildings of a lower 
   * If they do have a previous job, try to see if it creates a net increase using the condition described above.
 
 * With this method, we will never decrease CPS as we look at and attempt to populate each building.<br>
+
 Problem: the combination of two buildings' CPS can outweigh another building's CPS. Or vise versa. Then we'd have to revert changes made before.
 
 One problem that was encountered was when pulling numerous people out of a fully-populated building, cps would drop way below 0. This was because the calculation did not "remove" a person when removing cps. To fix this, I used a set to make sure that we don't reduce cps by half for every person removed.
 
 ## Fixing input data
 * Ballpark's multiplier/maxCPS is listed for x1, it was fixed to x3.
-* Embassy's multipler/maxCPS is listed for x1, it was fixed to x2.
-I'm not in the mood to look up and fix 159 entries, so we rescraped and reassigned.
+* Embassy's multipler/maxCPS is listed for x1, it was fixed to x2.<br>
+
+I'm not in the mood to look up and fix 159 entries, so we rescraped and reassigned.<br>
+
 Could run into a problem where the profession text does not line up for jobs and buildings, but we'll clear that hurdle when we get there (aka make a decision on how to handle it).
 
 Some pages had extra jobs from before the remastered version, so I manually wrote those rows in.
 
 I wanted to further pinpoint an optimal coin output, so I added time as a column and calculated the total CPS for each building. It can further be implemented for choices during execution.
 
-TODO: Scrape from my excel sheet.
+## TODO
+* Scrape from my excel sheet.
