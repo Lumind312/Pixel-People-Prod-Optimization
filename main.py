@@ -16,6 +16,7 @@
 import sys
 import pandas as pd
 from Class import Job, Building
+from copy import deepcopy
 
 test = ""
 
@@ -108,119 +109,143 @@ buildings,jobs,qbmap,qpmap = readCSVFiles(test)
 
 # create buildings[] for sorting
 blist = []
+blist2 = []
 for i in qbmap:
 	blist.append(Building(buildings.loc[i], i))
 	blist[-1].totalOutput = blist[-1].maxCPS * qbmap[i]		# x60 for seconds not needed
 
+	blist2.append(Building(buildings.loc[i], i))
+	blist2[-1].totalOutput = blist2[-1].maxCPS * qbmap[i]		# x60 for seconds not needed
+
 	
 pmap = {}
+pmap2 = {}
 for i in qpmap:
 	if qpmap[i] > 0:
 		pmap[i] = Job(qpmap[i], i)
+		pmap2[i] = Job(qpmap[i], i)
 
 blist.sort()
-blist.reverse()
-bref = {'' : -1}
-for i in range(len(blist)):
-	bref[blist[i].name] = i
-# print(classListToStr(blist))
-# print(classListToStr(pmap))
+blist2.sort(reverse=True)
+
+# changes blist
+def get_prod(blist, pmap):
+	bref = {'' : -1}
+	for i in range(len(blist)):
+		bref[blist[i].name] = i
+	# print(classListToStr(blist))
+	# print(classListToStr(pmap))
 
 
-for i in range(len(blist)):
-	curr = blist[i].name		# name of current building
-	while curr[-1].isdigit():
-		curr = curr[:-1]
+	for i in range(len(blist)):
+		curr = blist[i].name		# name of current building
+		while curr[-1].isdigit():
+			curr = curr[:-1]
 
-	# get people who work there (based on buildings.csv)
-	if (curr != blist[i-1].name):
-		workers = (buildings.loc[curr]["Worker1":"Worker6"]).to_list()
+		# get people who work there (based on buildings.csv)
+		if (curr != blist[i-1].name):
+			workers = (buildings.loc[curr]["Worker1":"Worker6"]).to_list()
 
-	# print(curr, workers)
+		# print(curr, workers)
 
-	inc = 0					# keep track of increase/decrease when testing CPS
-	count = 0
+		inc = 0					# keep track of increase/decrease when testing CPS
+		count = 0
 
-	# for each person, if they don't currently have a job, assign them
+		# for each person, if they don't currently have a job, assign them
 
-	# make sure we actually have all of the jobs
-	# hypothetically fill up the all of the people and check if there is an increase
-	buildRemove = []
-	for person in workers:
-		if pd.notnull(person) and person in pmap:
-			print(curr, person, pmap[person])
-			prevJob = pmap[person].getJob()
-			build = bref[prevJob]		# guaranteed to have person in pmap and guaranteed to have a job
-			if build >= 0:				# if a prevJob exists, calculate removing it
-				if blist[build].cps == int(buildings.loc[prevJob]["MaxCPS"]) and build not in buildRemove:
-					inc -= (blist[build].cps // 2 + blist[build].multiplier)
-				else:
-					inc -= blist[build].multiplier
-				buildRemove.append(build)
-			count += 1
-			inc += blist[i].multiplier + blist[i].multiplier
+		# make sure we actually have all of the jobs
+		# hypothetically fill up the all of the people and check if there is an increase
+		buildRemove = []
+		for person in workers:
+			if pd.notnull(person) and person in pmap:
+				# print(curr, person, pmap[person])
+				prevJob = pmap[person].getJob()
+				build = bref[prevJob]		# guaranteed to have person in pmap and guaranteed to have a job
+				if build >= 0:				# if a prevJob exists, calculate removing it
+					if blist[build].cps == int(buildings.loc[prevJob]["MaxCPS"]) and build not in buildRemove:
+						inc -= (blist[build].cps // 2 + blist[build].multiplier)
+					else:
+						inc -= blist[build].multiplier
+					buildRemove.append(build)
+				count += 1
+				inc += blist[i].multiplier + blist[i].multiplier
 
-	# will be multiplier if we are not using full, 2x multiplier if we are using full
-	# print(inc, 'Use full?', (count == int(buildings.loc[curr]["Capacity"]) and inc > 0))
-	add = blist[i].multiplier + blist[i].multiplier * (int(count == int(buildings.loc[curr]["Capacity"]) and inc > 0))
-	
-	# if there is an increase, actually go through with the operation
-	# if there is not an increase
-	# for each person, see if there is an increase
-	for person in workers:
-		if pd.notnull(person) and person in pmap:
-			prevJob = pmap[person].getJob()		# gets min multiplier
-			build = bref[prevJob]		# guaranteed to have person in pmap and guaranteed to have a job
-			# print(person, pmap[person], blist[build])
+		# will be multiplier if we are not using full, 2x multiplier if we are using full
+		# print(inc, 'Use full?', (count == int(buildings.loc[curr]["Capacity"]) and inc > 0))
+		add = blist[i].multiplier + blist[i].multiplier * (int(count == int(buildings.loc[curr]["Capacity"]) and inc > 0))
+		
+		# if there is an increase, actually go through with the operation
+		# if there is not an increase
+		# for each person, see if there is an increase
+		for person in workers:
+			if pd.notnull(person) and person in pmap:
+				prevJob = pmap[person].getJob()		# gets min multiplier
+				build = bref[prevJob]		# guaranteed to have person in pmap and guaranteed to have a job
+				# print(person, pmap[person], blist[build])
 
-			# check what the possible decrease would be
-			if build >= 0:
-				if blist[build].cps == int(buildings.loc[prevJob]["MaxCPS"]):		# if the prevJob had a full building, divide by 2 first
-					dec = (blist[build].cps // 2 + blist[build].multiplier)
-				else:
-					dec = blist[build].multiplier
-
-			# accept the change if the building should be full or we get a positive change in CPS
-			if prevJob == '' or (count == int(buildings.loc[curr]["Capacity"]) and inc > 0) or blist[i].multiplier >= dec:
-				# if we are removing from a building, decrement
+				# check what the possible decrease would be
 				if build >= 0:
-					if not blist[build].remove(person):
-						print('ERROR: building.remove() failed.')
+					if blist[build].cps == int(buildings.loc[prevJob]["MaxCPS"]):		# if the prevJob had a full building, divide by 2 first
+						dec = (blist[build].cps // 2 + blist[build].multiplier)
+					else:
+						dec = blist[build].multiplier
+
+				# accept the change if the building should be full or we get a positive change in CPS
+				if prevJob == '' or (count == int(buildings.loc[curr]["Capacity"]) and inc > 0) or blist[i].multiplier >= dec:
+					# if we are removing from a building, decrement
+					if build >= 0:
+						if not blist[build].remove(person):
+							print('ERROR: building.remove() failed at', blist[build].name, ':', person)
+							exit(1)
+						if blist[build].full():			# decrease multiplier if taking away from full
+							for w in blist[build].workers:
+								pmap[w].update(blist[build].multiplier, blist[build].name)
+					
+					pmap[person].assignJob([add, blist[i].maxCPS, curr])		# replaces min mulitplier for new one
+					if not blist[i].add(person):
+						print('ERROR: building.add() failed at', blist[i].name, ':', person)
 						exit(1)
-					if blist[build].full():			# decrease multiplier if taking away from full
-						for w in blist[build].workers:
-							pmap[w].update(blist[build].multiplier, blist[build].name)
-				
-				pmap[person].assignJob([add, blist[i].maxCPS, curr])		# replaces min mulitplier for new one
-				if not blist[i].add(person):
-					print('ERROR: building.add() failed.')
-					exit(1)
-				
-				if blist[i].full():
-					for w in blist[i].workers:
-						pmap[w].update(blist[i].maxCPS//2+blist[i].multiplier, curr)
-	# dummy = input(classListToStr(blist) + '\n')
+					
+					if blist[i].full():
+						for w in blist[i].workers:
+							pmap[w].update(blist[i].maxCPS//2+blist[i].multiplier, curr)
+		# dummy = input(classListToStr(blist) + '\n')
 
+	print()
+	# print(classListToStr(blist))
+	# classListToCSV(blist)
+
+def print_blist(blist):
+	print('Buildings:', len(qbmap), 'People:', sum(qpmap.values()))
+
+	total_sum = 0
+	curr = 0
+	lastCPS = blist[0].maxCPS
+	for i in blist:
+		if i.maxCPS != lastCPS:
+			print(lastCPS, curr)
+			curr = 0
+			lastCPS = i.maxCPS
+		total_sum += i.cps
+		curr += i.cps
+	print(lastCPS, curr)
+	print("Final CPS:", total_sum)
+	print()
+
+get_prod(blist, pmap)
+print_blist(blist)
+
+get_prod(blist2, pmap2)
+print_blist(blist2)
+
+
+# blist and blist2 are sorted, just in opposite directions
+# print the buildings that have differences
+for i in range(len(blist)):
+	if blist[i].cps != blist2[len(blist)-i-1].cps:
+		print(blist[i].name, blist[i].cps, '|', blist2[len(blist)-i-1].name, blist2[len(blist)-i-1].cps, '|', blist[i].cps - blist2[len(blist)-i-1].cps)
 print()
-# print(classListToStr(blist))
-classListToCSV(blist)
-
-sum = 0
-curr = 0
-lastCPS = blist[0].maxCPS
-for i in blist:
-	if i.maxCPS != lastCPS:
-		print(lastCPS, curr)
-		curr = 0
-		lastCPS = i.maxCPS
-	sum += i.cps
-	curr += i.cps
-print(lastCPS, curr)
-print("Final CPS:", sum)
-
-# TODO: try to fill buildings rather than individual ones
 
 # readable in exe run
+print("Log written to file")
 input("Finished running")
-
-# TODO: keep a history for each person. If we remove someone else from their current job, attempt to reassign them back to their previous job

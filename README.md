@@ -26,6 +26,10 @@ Problem: We don't currently have a way to determine if two buildings of a lower 
 
 Problem: the combination of two buildings' CPS can outweigh another building's CPS. Or vise versa. Then we'd have to revert changes made before.
 
+## Attempted solution 5:
+* We have a few cases to consider: populate buildings from nothing, an empty building outperforms a populated building, two smaller buildings outperform a larger building, two larger buildings outperform a smaller building. The main issue was covering the last 2 cases. I have an algorithm that will optimize when two buildings outperform another building (S4). So I tried to run the algorithm on both an ascending-sorted list and a descending-sorted list. At the end, I can compare the two results and make choices based on those.
+* TODO: what choices do I make when comparing?
+
 One problem that was encountered was when pulling numerous people out of a fully-populated building, cps would drop way below 0. This was because the calculation did not "remove" a person when removing cps. To fix this, I used a set to make sure that we don't reduce cps by half for every person removed.
 
 ## Fixing input data

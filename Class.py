@@ -1,6 +1,11 @@
+# make a log file and save all of the steps to that instead of printing
+log_file = open("log.txt","w")
+log_file.close()
+log_file = open("log.txt","a")
+
 class Job:
 	buildings_list = []
-	min = 0
+	min = 0				# index for lowest CPS bluiding assignment
 	name = ''			# irrelevant. used for print
 
 	def __init__(self, num, name = ''):
@@ -15,10 +20,10 @@ class Job:
 	
 	# list = [removable cps, maxCPS, building]
 	def assignJob(self, l) -> None:
-		print(self.name, 'reassigns', self.buildings_list[self.min], '->', end=' ')
+		log_file.write(self.name + ' reassigns ' + str(self.buildings_list[self.min]) + ' -> ')
 		self.buildings_list[self.min] = l
 		self.min = self.buildings_list.index(min(self.buildings_list))
-		print(l)
+		log_file.write(str(l) + '\n')
 
 	def update(self, n, build_name):
 		# print(self.name, self.buildings_list)
@@ -80,7 +85,7 @@ class Building:
 		if self.cps*2 == self.maxCPS:
 			self.cps *= 2
 		
-		print(self.name, '(', self.maxCPS, ')', 'adds', name, '|', before, '->', self.cps)
+		log_file.write(self.name + ' ( ' + str(self.maxCPS) + ' ) adds ' + name + ' | ' + str(before) + ' -> ' + str(self.cps) + '\n')
 		return True
 	def remove(self, name) -> bool:
 		if name not in self.workers:
@@ -92,5 +97,5 @@ class Building:
 			self.cps //= 2
 		self.cps -= self.multiplier
 		
-		print(self.name, '(', self.maxCPS, ')', 'removes', name, 'from', self.workers, '|', before, '->', self.cps)
+		log_file.write(self.name + ' ( ' + str(self.maxCPS) + ' ) removes ' + name + ' from ' + str(self.workers) + ' | ' + str(before) + ' -> ' + str(self.cps) + '\n')
 		return True
