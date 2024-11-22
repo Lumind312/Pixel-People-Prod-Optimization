@@ -43,8 +43,12 @@ def opt(row):
 
 # input: prefix (if test, which one?)
 def readCSVFiles(prefix=''):
-	f = prefix + 'buildings.csv'
-	b_df = pd.read_csv(f)
+	f = prefix + 'buildings.csv'		# use ./ if building.csv is not found
+	try:
+		b_df = pd.read_csv(f)
+	except:
+		print('Did not find ', f, '. Using ./\n', end='')
+		b_df = pd.read_csv('buildings.csv')
 	b_df.set_index('Building name', inplace=True)
 	if 'Lotsize' in b_df.columns:
 		b_df.drop(columns=['Lotsize'], inplace=True)
@@ -87,12 +91,12 @@ def classListToStr(cl) -> str:
 	ret = ret[:-3]
 	ret += ']'
 	return ret
-def classListToCSV(cl) -> str:
-	with open(test+'result.txt', 'w') as f:
+def classListToCSV(cl, prefix='') -> None:
+	with open(prefix+'result.csv', 'w') as f:
 		f.write('Building name,CPS,Worker1,Worker2,Worker3,Worker4,Worker5,Worker6\n')
 		for i in cl:
 			f.write(i.name + ',' + str(i.cps))
-			for w in range(6):
+			for w in range(len(i.workers)):
 				f.write(',')
 				if w < len(i.workers):
 					f.write(i.workers[w])
@@ -109,24 +113,17 @@ buildings,jobs,qbmap,qpmap = readCSVFiles(test)
 
 # create buildings[] for sorting
 blist = []
-blist2 = []
 for i in qbmap:
 	blist.append(Building(buildings.loc[i], i))
 	blist[-1].totalOutput = blist[-1].maxCPS * qbmap[i]		# x60 for seconds not needed
 
-	blist2.append(Building(buildings.loc[i], i))
-	blist2[-1].totalOutput = blist2[-1].maxCPS * qbmap[i]		# x60 for seconds not needed
-
 	
-pmap = {}
-pmap2 = {}
+pmap_asc = {}
 for i in qpmap:
 	if qpmap[i] > 0:
-		pmap[i] = Job(qpmap[i], i)
-		pmap2[i] = Job(qpmap[i], i)
+		pmap_asc[i] = Job(qpmap[i], i)
 
 blist.sort()
-blist2.sort(reverse=True)
 
 # changes blist
 def get_prod(blist, pmap):
@@ -137,7 +134,7 @@ def get_prod(blist, pmap):
 	# print(classListToStr(pmap))
 
 
-	for i in range(len(blist)):
+	for i in range(len(blist)):		# i is current building index
 		curr = blist[i].name		# name of current building
 		while curr[-1].isdigit():
 			curr = curr[:-1]
@@ -178,7 +175,7 @@ def get_prod(blist, pmap):
 		# if there is not an increase
 		# for each person, see if there is an increase
 		for person in workers:
-			if pd.notnull(person) and person in pmap:
+			if pd.notnull(person) and person in pmap and person not in blist[i].workers:
 				prevJob = pmap[person].getJob()		# gets min multiplier
 				build = bref[prevJob]		# guaranteed to have person in pmap and guaranteed to have a job
 				# print(person, pmap[person], blist[build])
@@ -211,14 +208,18 @@ def get_prod(blist, pmap):
 							pmap[w].update(blist[i].maxCPS//2+blist[i].multiplier, curr)
 		# dummy = input(classListToStr(blist) + '\n')
 
+	# who's not assigned a building?
+	# for i in pmap.values():
+	# 	if [0, 0, ''] in i.buildings_list:
+	# 		print("Empty:", i.name)
+
 	print()
-	# print(classListToStr(blist))
-	# classListToCSV(blist)
 
 def print_blist(blist):
 	print('Buildings:', len(qbmap), 'People:', sum(qpmap.values()))
 
 	total_sum = 0
+	total_people = 0
 	curr = 0
 	lastCPS = blist[0].maxCPS
 	for i in blist:
@@ -228,23 +229,22 @@ def print_blist(blist):
 			lastCPS = i.maxCPS
 		total_sum += i.cps
 		curr += i.cps
+		total_people += len(i.workers)
 	print(lastCPS, curr)
+
+	# verify step: the number of people in buildings should be the same as the number of people we have
 	print("Final CPS:", total_sum)
+	print("People in buildings (excluding Mechanic):", total_people)
 	print()
 
-get_prod(blist, pmap)
+get_prod(blist, pmap_asc)
+# print_blist(blist)
+blist.reverse()
+get_prod(blist, pmap_asc)
 print_blist(blist)
 
-get_prod(blist2, pmap2)
-print_blist(blist2)
-
-
-# blist and blist2 are sorted, just in opposite directions
-# print the buildings that have differences
-for i in range(len(blist)):
-	if blist[i].cps != blist2[len(blist)-i-1].cps:
-		print(blist[i].name, blist[i].cps, '|', blist2[len(blist)-i-1].name, blist2[len(blist)-i-1].cps, '|', blist[i].cps - blist2[len(blist)-i-1].cps)
-print()
+# print(classListToStr(blist))
+classListToCSV(blist, test)
 
 # readable in exe run
 print("Log written to file")

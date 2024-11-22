@@ -1,0 +1,451 @@
+Profession,Quantity
+Mayor,1
+Mechanic,1
+Engineer,1
+Sheriff,1
+Architect,1
+Landscaper,1
+Deputy,2
+Gardener,2
+Mechanical Engineer,2
+Botanist,1
+Park Ranger,1
+Firefighter,2
+Farmer,3
+Doctor,1
+Nurse,1
+Police Officer,2
+Vet,1
+Homemaker,2
+Zoologist,2
+Plumber,1
+Fishmonger,2
+Animal Trainer,1
+Milkmonger,1
+Artist,2
+Photographer,2
+Dentist,1
+Radiologist,1
+Cook,1
+Chef,1
+Zookeeper,1
+Construction Worker,1
+Car Designer,1
+Athlete,1
+Greengrocer,1
+Interior Designer,1
+Olympic Swimmer,1
+Painter,1
+Hotel Manager,1
+Valet,1
+Pilot,1
+Flight Attendant,1
+Aerospace Engineer,1
+Art Dealer,1
+Industrialist,1
+Jockey,1
+Marine Biologist,1
+Real Estate Agent,1
+Soldier,1
+Waiter,1
+Philosopher,1
+Detective,3
+Lawyer,2
+Marine,1
+Judge,1
+Secretary,3
+Writer,3
+Poet,2
+Paramedic,1
+Lifeguard,1
+Model,1
+Swimsuit Model,1
+Reporter,1
+Ballet Dancer,1
+Martial Artist,1
+Sushi Chef,1
+Food Critic,1
+General,1
+Actor,1
+Flight Controller,1
+Calligrapher,1
+Cameraman,2
+Cheerleader,1
+Coach,1
+Courier,1
+Director,1
+Florist,3
+Gravedigger,1
+Mailman,1
+Miner,1
+Cattle Rustler,1
+Postmaster General,1
+Stunt Double,1
+Programmer,2
+Game Designer,1
+Mathematician,3
+Scientist,1
+Physicist,1
+Astronomer,1
+Astronaut,1
+Geneticist,1
+Cryptozoologist,2
+Accountant,2
+Editor,1
+Librarian,1
+Historian,1
+Archaeologist,1
+Super Hero,1
+Atomic Hero,1
+Ancient Hero,2
+Choreographer,1
+Pharmacist,1
+CSI,1
+Forensic Scientist,1
+Physiotherapist,1
+Coroner,2
+Anti Hero,1
+Wrestler,0
+Clown,1
+Paleontologist,1
+Geologist,1
+Break Dancer,1
+Captain,1
+Weather Reporter,1
+Comic,1
+Disc Jockey,1
+First Mate,1
+Buccaneer,1
+Preacher,1
+Rapper,1
+Receptionist,2
+Songwriter,1
+Taxidermist,1
+Vocalist,1
+Assistant,1
+Footballer,1
+Shepherd,1
+Winemaker,1
+Baker,1
+Carpenter,1
+Janitor,1
+Ninja,1
+Referee,1
+Secret Agent,1
+Sensei,1
+Deep Sea Diver,2
+Watchmaker,1
+Time Traveller,1
+Tailor,1
+Ringmaster,1
+Oracle,1
+Matador,0
+Magician,2
+Bartender,2
+Barista,1
+Wizard,1
+Apprentice,1
+System Admin,1
+Genie,2
+Wedding Planner,1
+Centaur,1
+Wedding Singer,0
+Jeweller,1
+Chocolatier,1
+Matchmaker,0
+Dating Advisor,1
+Politician,1
+Civil Servant,1
+Officer,1
+Insurance Agent,1
+Federal Agent,1
+Conductor,1
+Drummer,1
+Bassist,1
+Guitarist,1
+Pianist,1
+Violinist,1
+Gamer,1
+Basketballer,1
+Baseballer,0
+Soccer Star,1
+Tennis Player,0
+Golfer,1
+Caddie,0
+Racecar Driver,1
+Mascot,0
+Figure Skater,0
+Skier,0
+Mountain Climber,0
+Ice Fisher,0
+Pizza Guy,0
+Sommelier,0
+Ice Cream Seller,1
+Celebrity Chef,0
+Butler,0
+Cosmetic Surgeon,1
+Cardiologist,1
+Bouncer,0
+Party Animal,1
+Gambler,1
+Croupier,1
+Investor,1
+Bodybuilder,1
+Gym Instructor,1
+Sumo Wrestler,1
+Samurai,1
+Gymnast,0
+Boxer,0
+Acrobat,0
+Professor,1
+Talkshow Host,1
+News Anchor,1
+Entrepreneur,1
+Travel Agent,0
+Tour Guide,0
+Cyclist,0
+Skateboarder,0
+Tree Hugger,1
+Star Commander,0
+Mounted Police,0
+Tourist,0
+Catcher,0
+Statistician,1
+Ventriloquist,1
+Masseuse,1
+Chemist,1
+Hazmat,1
+Investment Banker,1
+Mime,1
+Optometrist,1
+Surfer,0
+Butcher,1
+Hockey Player,0
+Sports Fan,1
+Lumberjack,1
+Pyrotechnician,1
+Tattoo Artist,1
+Biker,0
+Gas Filler,1
+Car Washer,0
+Hair Stylist,1
+Sea Dog,1
+Sailor,1
+Dock Hand,1
+Boat Racer,1
+Sailing Instructor,1
+Lighthouse Keeper,1
+Cartographer,1
+Castaway,1
+Tribal,0
+Treasure Hunter,0
+Mermaid,1
+Musketeer,0
+Emperor,1
+Fencer,1
+Lawn Gnome,1
+Punk Rocker,1
+Mariachi,1
+Rockstar,1
+Electrician,1
+Telephone Operator,1
+Cashier,1
+Bee Keeper,1
+Entomologist,1
+Bell Ringer,0
+Security Guard,2
+Minotaur,0
+Tooth Fairy,1
+Eagle Scout,1
+Camp Counsellor,1
+Outlaw,1
+Caveman,0
+Crashtest Dummy,1
+Oil Driller,1
+Vigilante,1
+Rock Climber,0
+Welder,1
+Oil Baron,1
+Barber,1
+Acapella Singer,1
+Merchant,1
+Ambassador,1
+Vampire,0
+Monster,0
+Werewolf,1
+Mummy,0
+Mad Scientist,1
+Henchman,0
+Supervillain,1
+Thief,0
+Assassin,0
+Bandit,0
+Arsonist,0
+CEO,1
+Ghost,0
+Skeleton,0
+Witch,0
+Troll,0
+Jack-O-Lantern,1
+Slasher,0
+Overlord,1
+Monster Hunter,0
+Exterminator,0
+Cyclops,0
+Ice Lord,0
+Guardian,0
+Snow Elemental,0
+Sherpa,0
+Alpine Rescue,0
+Snowboarder,0
+Toy Maker,1
+Elf,1
+Toy Soldier,1
+Viking,0
+Regent,1
+Successor,1
+Big Bad Wolf,1
+Puppet,0
+Jungle Dweller,0
+Swashbuckler,1
+Hooded Rider,1
+Piper,0
+Knight,1
+Adventurer,0
+Sculptor,1
+Bean Farmer,0
+Giant,0
+Wonderlander,0
+Gingerbread Clone,0
+Submariner,0
+Gladiator,0
+Sun Priest,0
+Dwarf,0
+Hermit,0
+Hair Model,1
+Housekeeper,1
+Shoe Maker,1
+Base Jumper,0
+Playwright,1
+Perfume Maker,1
+Bard,1
+Newlywed,0
+Blacksmith,1
+Freedom Fighter,1
+Metalhead,0
+Juggler,0
+Bagpiper,0
+Train Conductor,1
+Makeup Artist,1
+Engine Driver,1
+Warrior,0
+Online Shopper,1
+Forester,0
+Cliff Diver,0
+Yoga Instructor,0
+Dog Walker,0
+Whisky Blender,0
+Frisbee Player,0
+Graffiti Artist,1
+Organic Farmer,0
+Juicer,0
+Balloon Twister,1
+Manicurist,0
+Indie Musician,0
+Auctioneer,0
+Barbarian,0
+Monk,0
+Cleric,1
+Paladin,0
+Dragon Tamer,0
+Rogue,1
+Necromancer,1
+Executive Producer,0
+Megastar,0
+Pop Icon,0
+Synthpop Artist,0
+Talent Show Judge,0
+Mogul,0
+Voiceover Artist,0
+Foley Artist,0
+CGI Artist,0
+Gofer,0
+Fashion Designer,0
+Talent Manager,0
+Stylist,0
+Publicist,0
+Undiscovered Talent,0
+Makeover Artist,0
+Auteur,0
+A-List Actor,0
+Thespian,0
+Ingenue,0
+Film Producer,0
+Paparazzi,0
+Tutor,0
+Art Therapist,0
+Heir,0
+Crony,0
+Pro-Gamer,0
+Gameshow Host,0
+Streamer,0
+Sports Caster,0
+Influencer,0
+Mukbang Streamer,0
+Barbecuer,1
+Tech Engineer,0
+Vizier,0
+Courtier,0
+Propsmaster,1
+Hacker,0
+Secret Dispatcher,0
+Magical Student,0
+Kid Robot,0
+Bike Rider,0
+Metamorph,0
+Space Ranger,0
+Tech Magnate,0
+Mecha Pilot,0
+Mecha Mechanic,0
+Mecha Inventor,0
+Robo Caller,0
+Keyboard Warrior,0
+Xenolinguist,0
+Xenobiologist,0
+Crisis Manager,0
+Relief Coordinator,0
+Kaiju Whisperer,0
+ER Doctor,0
+Trauma Surgeon,0
+Field Engineer,0
+Ambulance Driver,0
+EMT Technician,0
+Comic Geek,0
+Gadget Refurbisher,0
+Computer Wiz,0
+Cosplay Costumier,0
+Cosplayer,0
+Mangaka,0
+Toy Collector,0
+Comics Editor,0
+Animator,0
+Imperial Guard,0
+Shogun,0
+Gatekeeper,0
+Priest,0
+Shrine Attendant,0
+Zen Gardener,0
+Store Greeter,0
+Store Manager,0
+Clerk,0
+Book Collector,0
+Novelist,0
+Publisher,0
+Patissier,0
+Confiseur,0
+Decorateur,0
+Glacier,0
+Crooner,0
+Improv Drummer,0
+Blues Guitarist,0
+Double Bassist,1

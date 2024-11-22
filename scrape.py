@@ -36,6 +36,8 @@ def getDataFromPage(link):
 		data['Workers'] = ['Monster','Mad Scientist','Henchman']
 	if data['Building name'] == 'Secret Hideout':
 		data['Workers'] = ['Monster Hunter','Lawn Gnome']
+	if data['Building name'] == 'Funeral Parlor':
+		data['Workers'] = ['Coroner','Gravedigger','Landscaper']
 
 	# capacity
 	data['Capacity'] = len(data['Workers'])						# capacity

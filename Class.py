@@ -1,11 +1,11 @@
 # make a log file and save all of the steps to that instead of printing
-log_file = open("log.txt","w")
+log_file = open("log.txt","w")		# clear log.txt
 log_file.close()
 log_file = open("log.txt","a")
 
 class Job:
 	buildings_list = []
-	min = 0				# index for lowest CPS bluiding assignment
+	min = 0				# index for lowest CPS building assignment
 	name = ''			# irrelevant. used for print
 
 	def __init__(self, num, name = ''):
