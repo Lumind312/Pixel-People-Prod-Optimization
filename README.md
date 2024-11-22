@@ -2,6 +2,18 @@
 
 Pixel People is a game where you splice two different jobs together to get a new job. And each new job can unlock new buildings for them to work at. But as there are more than 400 jobs, it gets hard to keep track of how much each makes. And what is the best way for you to make money?
 
+# How to Use
+1. Make sure data is up-to-date by running `scrape.py`. This uses the Pixel People Wikia to get the necessary data.
+2. Update what you have in the `qbuilding.csv` and `qpeople.csv` files.
+3. Run `main.py`. The final solution will be in a `result.csv` file.
+  * A summarized result will be output to console.
+  * You can use the log to see exactly what decisions were made.
+
+## Fixing input data
+* Ballpark's multiplier/maxCPS is listed for x1, it was fixed to x3.
+* Embassy's multipler/maxCPS is listed for x1, it was fixed to x2.
+* Funeral Parlor lists Gravedigger as "Grave Digger". It was fixed to be one word.<br>
+
 ## Attempted solution 1:
 * Naive approach: Just put people into random allowed jobs and permutate until we get the right answer.
 * This will be very slow. Assuming that each job can go into a maximum of 3 jobs, that would be a space complexity of O(3^*n*), where *n* is 430. So let's not.
@@ -26,11 +38,18 @@ Problem: We don't currently have a way to determine if two buildings of a lower 
 
 Problem: the combination of two buildings' CPS can outweigh another building's CPS. Or vise versa. Then we'd have to revert changes made before.
 
-One problem that was encountered was when pulling numerous people out of a fully-populated building, cps would drop way below 0. This was because the calculation did not "remove" a person when removing cps. To fix this, I used a set to make sure that we don't reduce cps by half for every person removed.
+## Attempted solution 5:
+* We have a few cases to consider: populate buildings from nothing, an empty building outperforms a populated building, two smaller buildings outperform a larger building, two larger buildings outperform a smaller building. The main issue was covering the last 2 cases. I have an algorithm that will optimize when two buildings outperform another building (S4). So I tried to run the algorithm on both an ascending-sorted list and a descending-sorted list. At the end, I can compare the two results and make choices based on those.
+* Currently assumes there is only one of each kind of building when comparing differences.
+* TODO: what choices do I make when comparing?
+
+* As a start, I first ran the algorithm on the buildings in ascending order. Then I ran the same algorithm on the result in descending order. It should make choices based both cases we are considering.
+  * I was able to get a total CPS of 1076, which was -2 off of the current CPS in my game. I added a verification that all people were being used. This led to finding a datatable error, which was fixed. I am now able to achieve 1084 CPS.
 
 ## Fixing input data
 * Ballpark's multiplier/maxCPS is listed for x1, it was fixed to x3.
-* Embassy's multipler/maxCPS is listed for x1, it was fixed to x2.<br>
+* Embassy's multipler/maxCPS is listed for x1, it was fixed to x2.
+* Funeral Parlor lists Gravedigger as "Grave Digger". It was fixed to be one word.<br>
 
 I'm not in the mood to look up and fix 159 entries, so we rescraped and reassigned.<br>
 
