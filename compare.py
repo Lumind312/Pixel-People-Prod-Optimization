@@ -10,11 +10,16 @@ act = pd.read_csv('reference.txt', delimiter='\t')
 act.set_index('Building name', inplace=True)
 act.drop(columns=['IncrPerCost'], inplace=True)
 
-j = exp.join(act)
+# so we can see maxCPS
+build_df = pd.read_csv('buildings.csv')
+build_df = build_df.set_index('Building name')['MaxCPS']
+
+j = exp.join(build_df)
+j = j.join(act)
 
 # print(j)
 
 diff = j[j['CPS'] != j['Curr CPS']]
-print(diff)
+print(diff.loc[:, ['MaxCPS','CPS','Curr CPS']])
 
 print(sum(j['CPS']), sum(j['Curr CPS']))
