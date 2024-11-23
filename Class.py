@@ -48,6 +48,7 @@ class Building:
 	maxCPS = 0
 	workers = []
 	name = ''
+	totalOutput = 0
 
 	def __init__(self, info, name):
 		self.cps = 0

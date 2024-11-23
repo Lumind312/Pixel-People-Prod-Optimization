@@ -118,10 +118,10 @@ for i in qbmap:
 	blist[-1].totalOutput = blist[-1].maxCPS * qbmap[i]		# x60 for seconds not needed
 
 	
-pmap_asc = {}
+pmap = {}
 for i in qpmap:
 	if qpmap[i] > 0:
-		pmap_asc[i] = Job(qpmap[i], i)
+		pmap[i] = Job(qpmap[i], i)
 
 blist.sort()
 
@@ -188,7 +188,7 @@ def get_prod(blist, pmap):
 						dec = blist[build].multiplier
 
 				# accept the change if the building should be full or we get a positive change in CPS
-				if prevJob == '' or (count == int(buildings.loc[curr]["Capacity"]) and inc > 0) or blist[i].multiplier >= dec:
+				if prevJob == '' or (count == int(buildings.loc[curr]["Capacity"]) and inc > 0) or (blist[i].multiplier >= dec and not blist[i] < blist[build]):
 					# if we are removing from a building, decrement
 					if build >= 0:
 						if not blist[build].remove(person):
@@ -237,10 +237,10 @@ def print_blist(blist):
 	print("People in buildings (excluding Mechanic):", total_people)
 	print()
 
-get_prod(blist, pmap_asc)
+get_prod(blist, pmap)
 # print_blist(blist)
 blist.reverse()
-get_prod(blist, pmap_asc)
+get_prod(blist, pmap)
 print_blist(blist)
 
 # print(classListToStr(blist))
