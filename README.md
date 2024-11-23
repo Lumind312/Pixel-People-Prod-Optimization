@@ -14,6 +14,10 @@ Pixel People is a game where you splice two different jobs together to get a new
 * Embassy's multipler/maxCPS is listed for x1, it was fixed to x2.
 * Funeral Parlor lists Gravedigger as "Grave Digger". It was fixed to be one word.<br>
 
+Some pages had extra jobs from before the remastered version, so I manually wrote those rows in.
+
+I wanted to further pinpoint an optimal coin output, so I added time as a column and calculated the total CPS for each building. It can further be implemented for choices during execution.
+
 ## Attempted solution 1:
 * Naive approach: Just put people into random allowed jobs and permutate until we get the right answer.
 * This will be very slow. Assuming that each job can go into a maximum of 3 jobs, that would be a space complexity of O(3^*n*), where *n* is 430. So let's not.
@@ -45,19 +49,7 @@ Problem: the combination of two buildings' CPS can outweigh another building's C
 
 * As a start, I first ran the algorithm on the buildings in ascending order. Then I ran the same algorithm on the result in descending order. It should make choices based both cases we are considering.
   * I was able to get a total CPS of 1076, which was -2 off of the current CPS in my game. I added a verification that all people were being used. This led to finding a datatable error, which was fixed. I am now able to achieve 1084 CPS.
-
-## Fixing input data
-* Ballpark's multiplier/maxCPS is listed for x1, it was fixed to x3.
-* Embassy's multipler/maxCPS is listed for x1, it was fixed to x2.
-* Funeral Parlor lists Gravedigger as "Grave Digger". It was fixed to be one word.<br>
-
-I'm not in the mood to look up and fix 159 entries, so we rescraped and reassigned.<br>
-
-Could run into a problem where the profession text does not line up for jobs and buildings, but we'll clear that hurdle when we get there (aka make a decision on how to handle it).
-
-Some pages had extra jobs from before the remastered version, so I manually wrote those rows in.
-
-I wanted to further pinpoint an optimal coin output, so I added time as a column and calculated the total CPS for each building. It can further be implemented for choices during execution.
+* New problem: I found that the Manicurist job wasn't added when I tried that. When I added it, the result went down to 1078. So adding that one job made things worse somehow.
 
 ## TODO
 * Scrape from my excel sheet.
