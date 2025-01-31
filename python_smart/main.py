@@ -88,12 +88,12 @@ def classListToStr(cl) -> str:
 	ret = ret[:-3]
 	ret += ']'
 	return ret
-def classListToCSV(cl) -> str:
-	with open(test+'result.txt', 'w') as f:
+def classListToCSV(cl, prefix='') -> None:
+	with open(prefix+'result.csv', 'w') as f:
 		f.write('Building name,CPS,Worker1,Worker2,Worker3,Worker4,Worker5,Worker6\n')
 		for i in cl:
 			f.write(i.name + ',' + str(i.cps))
-			for w in range(6):
+			for w in range(len(i.workers)):
 				f.write(',')
 				if w < len(i.workers):
 					f.write(i.workers[w])
@@ -121,7 +121,7 @@ def get_prod(blist, pmap):
 	# print(classListToStr(pmap))
 
 
-	for i in range(len(blist)):
+	for i in range(len(blist)):		# i is current building index
 		curr = blist[i].name		# name of current building
 		while curr[-1].isdigit():
 			curr = curr[:-1]
@@ -162,7 +162,7 @@ def get_prod(blist, pmap):
 		# if there is not an increase
 		# for each person, see if there is an increase
 		for person in workers:
-			if pd.notnull(person) and person in pmap:
+			if pd.notnull(person) and person in pmap and person not in blist[i].workers:
 				prevJob = pmap[person].getJob()		# gets min multiplier
 				build = bref[prevJob]		# guaranteed to have person in pmap and guaranteed to have a job
 				# print(person, pmap[person], blist[build])
@@ -175,7 +175,7 @@ def get_prod(blist, pmap):
 						dec = blist[build].multiplier
 
 				# accept the change if the building should be full or we get a positive change in CPS
-				if prevJob == '' or (count == int(buildings.loc[curr]["Capacity"]) and inc > 0) or blist[i].multiplier >= dec:
+				if prevJob == '' or (count == int(buildings.loc[curr]["Capacity"]) and inc > 0) or (blist[i].multiplier >= dec and not blist[i] < blist[build]):
 					# if we are removing from a building, decrement
 					if build >= 0:
 						if not blist[build].remove(person):
@@ -194,6 +194,11 @@ def get_prod(blist, pmap):
 						for w in blist[i].workers:
 							pmap[w].update(blist[i].maxCPS//2+blist[i].multiplier, curr)
 		# dummy = input(classListToStr(blist) + '\n')
+
+	# who's not assigned a building?
+	# for i in pmap.values():
+	# 	if [0, 0, ''] in i.buildings_list:
+	# 		print("Empty:", i.name)
 
 	print()
 	# print(classListToStr(blist))

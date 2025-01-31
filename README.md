@@ -2,6 +2,22 @@
 
 Pixel People is a game where you splice two different jobs together to get a new job. And each new job can unlock new buildings for them to work at. But as there are more than 400 jobs, it gets hard to keep track of how much each makes. And what is the best way for you to make money?
 
+# How to Use
+1. Make sure data is up-to-date by running `scrape.py`. This uses the Pixel People Wikia to get the necessary data.
+2. Update what you have in the `qbuilding.csv` and `qpeople.csv` files.
+3. Run `main.py`. The final solution will be in a `result.csv` file.
+  * A summarized result will be output to console.
+  * You can use the log to see exactly what decisions were made.
+
+## Fixing input data
+* Ballpark's multiplier/maxCPS is listed for x1, it was fixed to x3.
+* Embassy's multipler/maxCPS is listed for x1, it was fixed to x2.
+* Funeral Parlor lists Gravedigger as "Grave Digger". It was fixed to be one word.<br>
+
+Some pages had extra jobs from before the remastered version, so I manually wrote those rows in.
+
+I wanted to further pinpoint an optimal coin output, so I added time as a column and calculated the total CPS for each building. It can further be implemented for choices during execution.
+
 ## Attempted solution 1:
 * Naive approach: Just put people into random allowed jobs and permutate until we get the right answer.
 * This will be very slow. Assuming that each job can go into a maximum of 3 jobs, that would be a space complexity of O(3^*n*), where *n* is 430. So let's not.
