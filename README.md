@@ -11,6 +11,8 @@ Pixel People is a game where you splice two different jobs together to get a new
 
 Problem: 40 clusters were created. Most of them were less than 10 nodes in size. However, the final cluster still had 123 jobs to go through. That's 3^{123} permutations. Still too many.
 
+* Add-on: I've tried to make this run faster by optimized each operation done through the recursion, but every 100000 iterations still took 3.5 seconds each. This has to scale to half a googol iterations, so it was still not feasible.
+
 ## Attempted solution 3: Priority queue iterating through 2m buildings.
 Problem: We don't currently have a way to determine if two buildings of a lower CPS can surpass one building of a higher CPS (ex. 6 < 4 + 4).
 
@@ -28,7 +30,10 @@ Problem: the combination of two buildings' CPS can outweigh another building's C
 
 ## Attempted solution 5:
 * We have a few cases to consider: populate buildings from nothing, an empty building outperforms a populated building, two smaller buildings outperform a larger building, two larger buildings outperform a smaller building. The main issue was covering the last 2 cases. I have an algorithm that will optimize when two buildings outperform another building (S4). So I tried to run the algorithm on both an ascending-sorted list and a descending-sorted list. At the end, I can compare the two results and make choices based on those.
-* TODO: what choices do I make when comparing?
+* Currently assumes there is only one of each kind of building when comparing differences.
+
+## Attempted solution 5.1:
+* With the two lists that were used, I got a resulting CPS and configuration for each. However both were not close to my actual CPS in-game. I compared the differences between the two lists. I could clearly see what choices eac list resulted in, and what choices they agreed on. With this, saved the choices that were agreed upon and ran the algorithm again the buildings that had differences. I repeated this process until both lists agreed on every choice made. This brought my calculated CPS closer to the ideal: less than 10 CPS off.
 
 One problem that was encountered was when pulling numerous people out of a fully-populated building, cps would drop way below 0. This was because the calculation did not "remove" a person when removing cps. To fix this, I used a set to make sure that we don't reduce cps by half for every person removed.
 
