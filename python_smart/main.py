@@ -207,7 +207,7 @@ def find_config(qbmap: dict, qpmap: dict, desc=False):
 	# create buildings[] for sorting
 	blist = []
 	for i in qbmap:
-		blist.append(Building(buildings.loc[i], i, qbmap[i]))									# time used here
+		blist.append(Building(buildings.loc[i], i, qbmap[i]))
 		blist[-1].totalOutput = blist[-1].maxCPS * qbmap[i]		# x60 for seconds not needed
 
 		
@@ -281,7 +281,7 @@ blist_asc, pmap_asc = find_config(qbmap, qpmap)
 blist_des, pmap_des = find_config(qbmap, qpmap, desc=True)
 
 blist_final = []
-while 1:
+while 1:		# used for running diff over and over
 	# remainder is unpopulated buildings, blist_same is populated
 	blist_same, remainder, pmap_rem = get_diff(blist_asc, blist_des, show=True)
 	print("Same size:", len(blist_same), "| Rem size:", len(remainder), "| People:", len(pmap_rem.keys()))

@@ -66,6 +66,7 @@ class Building:
 		ans += ' ' + str(self.workers)
 		return ans
 
+	# change this for sorting
 	def __lt__(self, other) -> bool:
 		if self.maxCPS == other.maxCPS:
 			if self.totalOutput == other.totalOutput:
