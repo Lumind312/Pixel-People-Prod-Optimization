@@ -38,7 +38,6 @@ class Job:
 		self.buildings_list[j][0] = n
 		self.min = self.buildings_list.index(min(self.buildings_list))
 	
-	# 
 	def str(self) -> str:
 		return str(self.buildings_list)
 
