@@ -27,7 +27,7 @@ void printMap(const map<string,int>& m) {
 	for (auto i = m.begin(); i != m.end(); i++) {
 		if (i != m.begin())
 			cout << ", ";
-		cout << i->first << ":" << i->second;
+		cout << i->first << ": " << i->second;
 	}
 	cout << "}" << endl;
 }

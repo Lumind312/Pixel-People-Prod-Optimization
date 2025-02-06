@@ -5,16 +5,15 @@
 
 // buildings.csv headers
 #define Building_name 0
-#define Lotsize 1
-#define MaxCPS 2
-#define Multiplier 3
-#define Worker1 4
-#define Worker2 5
-#define Worker3 6
-#define Worker4 7
-#define Worker5 8
-#define Worker6 9
-#define Capacity 10
+#define MaxCPS 1
+#define Multiplier 2
+#define Worker1 3
+#define Worker2 4
+#define Worker3 5
+#define Worker4 6
+#define Worker5 7
+#define Worker6 8
+#define Capacity 9
 
 // jobs.csv headers
 #define Profession 0
