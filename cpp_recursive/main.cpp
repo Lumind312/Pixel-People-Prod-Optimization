@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 	vector<set<string>> clusters = generateClusters(buildings);
 	cout << "Clusters:\n";
 	for (unsigned i = 0; i < clusters.size(); i++) {
-		cout << setToStr(clusters.at(i));
+		cout << setToStr(clusters.at(i)) << endl;
 	}
 
 	// finally, create qmaps of buildings and people, and use the clusters to generate the max value + config
@@ -53,15 +53,15 @@ int main(int argc, char* argv[]) {
 		}
 
 		// else
-		if (pdict.size() < 100) {		// temporarily don't calculate the big one
+		// if (pdict.size() < 100) {		// temporarily don't calculate the big one
 		cout << "Make cluster with:\n";
 		cout << "bdict_size: " << bdict.size() << " | pdict_size: "<< pdict.size() << endl;
-		// printMap(bdict);
-		// printMap(pdict);
+		printMap(bdict);
+		printMap(pdict);
 
 		Cluster c = Cluster(&buildings, &jobs, bdict, pdict);
 		cout << "Result:\n" << c.str() << endl;
-		}
+		// }
 	}
 
 	cout << "Run complete" << endl;

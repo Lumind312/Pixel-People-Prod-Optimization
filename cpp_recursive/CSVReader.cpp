@@ -37,7 +37,10 @@ vector<vector<string>> CSVReader::readCSV(const string& filename) const {
 	string temp;
 	getline(inFS, temp);	// save the header? nah
 	while (getline(inFS, temp)) {
-		df.push_back(this->strip(temp, '\t'));
+		if (filename.find('q') != string::npos)
+			df.push_back(this->strip(temp, '\t'));
+		else
+			df.push_back(this->strip(temp));
 	}
 
 	return df;
@@ -56,6 +59,7 @@ map<string,int> CSVReader::getMapFromCSV(const string& filename) const {
 // add new column with max number of people in buildings or max options of possible buildings per people
 // true if for buildings, false if for jobs
 map<string,vector<string>> CSVReader::getDataframeFromCSV(const string& filename) const {
+	cout << "Reading " << filename << endl;
 	map<string, vector<string>> m;
 	auto df = readCSV(filename);
 	bool build_job = (filename.at(0) == 'b');

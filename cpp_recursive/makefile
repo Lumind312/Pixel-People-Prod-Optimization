@@ -5,9 +5,9 @@ calculate.exe: main.o Cluster.o CSVReader.o Prints.o
 
 Prints.o: Prints.h Prints.cpp
 	g++ Prints.cpp -c $(CPPFLAGS)
-CSVReader.o: CSVReader.h CSVReader.cpp
+CSVReader.o: CSVReader.h CSVReader.cpp DF_Headers.h
 	g++ CSVReader.cpp -c $(CPPFLAGS)
-Cluster.o: Cluster.h Cluster.cpp 
+Cluster.o: Cluster.h Cluster.cpp DF_Headers.h
 	g++ Cluster.cpp -c $(CPPFLAGS)
 main.o: main.cpp 
 	g++ main.cpp -c $(CPPFLAGS)
