@@ -49,7 +49,9 @@ class Building:
 	name = ''
 	totalOutput = 0
 
-	def __init__(self, info, name, time = 1):
+	def __init__(self, id, info, name, time = 1):
+		self.id = id
+
 		self.cps = 0
 		self.multiplier = int(info['Multiplier'][1:])
 		self.maxCPS = int(info['MaxCPS'])
