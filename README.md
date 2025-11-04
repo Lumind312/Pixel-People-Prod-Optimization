@@ -1,11 +1,15 @@
 # Pixel People Optimal Assignments
 
-Pixel People is a game where you splice two different jobs together to get a new job. And each new job can unlock new buildings for them to work at. But as there are more than 400 jobs, it gets hard to keep track of how much each makes. And what is the best way for you to make money?
+Pixel People is a game where you splice two different jobs together to get a new job. And each new job can unlock new buildings for them to work at. But as there are more than 400 jobs, it gets hard to keep track of how much each makes. And what is the best way for you to assign people to make money?
+
+For this project, the goal is to <b>maximize the CPS all buildings produce</b>, as this is a requirement for some quests. There will also be an optional "maximum coins produced when untouched" that will be based on the time the building can work until it needs to be interacted with again.
+
+Some of my attempts are below. The main issue is that when a building is full, the coin production doubles. This negates a basic greedy algorithm solution, but it is too big to try every permutation. In the end, this is a hard graph problem, where each of the people and buildings are vertices and you need to find an edge cover with the x2 conditions.
 
 # How to Use
 1. Make sure data is up-to-date by running `scrape.py`. This uses the Pixel People Wikia to get the necessary data.
 2. Update what you have in the `qbuilding.csv` and `qpeople.csv` files.
-3. Run `main.py`. The final solution will be in a `result.csv` file.
+3. (OUTDATED) Run `main.py`. The final solution will be in a `result.csv` file.
   * A summarized result will be output to console.
   * You can use the log to see exactly what decisions were made.
 
@@ -66,4 +70,5 @@ Some pages had extra jobs from before the remastered version, so I manually wrot
 I wanted to further pinpoint an optimal coin output, so I added time as a column and calculated the total CPS for each building. It can further be implemented for choices during execution.
 
 ## TODO
+
 * Scrape from my excel sheet.
