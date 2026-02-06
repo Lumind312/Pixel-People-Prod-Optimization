@@ -32,6 +32,9 @@ def getDataFromPage(link):
 	# print(data)
 
 	# manual fixes
+	if data['Building name'] == 'Rail Terminal':
+		data['Building name'] = 'Railroad Station'
+
 	if data['Building name'] == 'Laboratory':
 		data['Workers'] = ['Monster','Mad Scientist','Henchman']
 	if data['Building name'] == 'Secret Hideout':
