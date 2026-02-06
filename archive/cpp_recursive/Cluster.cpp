@@ -194,8 +194,12 @@ void Cluster::recursion(map<string, Building>& currBuilds, const vector<string>&
 		}
 
 		count += 1;
-		if (count % 100000 == 0) {
-			cout << fixed << setprecision(3) << time(0)-startTime << " - " << setprecision(0) << count << endl;
+		if ((time(0) - startTime) % 10 == 0 && !displayed) {
+			cout << time(0)-startTime << " - " << count << endl;
+			displayed = true;
+		}
+		else if (displayed && (time(0) - startTime) % 10 == 1) {
+			displayed = false;
 		}
 		return;
 	}

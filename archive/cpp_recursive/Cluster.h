@@ -10,6 +10,7 @@
 #include <set>
 
 // class for holding buildings
+// one building per type
 class Building {
   public:
 	Building();
@@ -45,7 +46,8 @@ class Cluster {
 	int maxVal;
 	std::map<std::string, Building> maxMap;
 	bool done;		// so it doesn't have to calculate more than once
-	double startTime;
+	int startTime;
+	bool displayed = true;
 
 	void filterEasy(std::map<std::string, Building>& builds, std::vector<std::string>& people);
 	void filterFit(std::map<std::string, Building>& builds, std::map<std::string, int>& qpmap);

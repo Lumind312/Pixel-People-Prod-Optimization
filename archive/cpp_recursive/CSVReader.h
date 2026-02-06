@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 
+// I just made this work similarly to pandas
 class CSVReader {
   private:
 	std::string test;
