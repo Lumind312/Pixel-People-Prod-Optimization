@@ -59,7 +59,7 @@ Film Festival,12,x1,Auteur,A-List Actor,Thespian,Film Producer,Ingenue,Paparazzi
 Film Studio,8,x1,Director,Actor,Stunt Double,Security Guard,,,4
 Fire Station,6,x1,Firefighter,Paramedic,Deputy,,,,3
 Fireworks Factory,12,x2,Pyrotechnician,Firefighter,Chemist,,,,3
-Flower Shop,12,x2,Florist,Tree Hugger,Chocolatier,,,,3
+Flower Shop,12,x2,Florist,Treehugger,Chocolatier,,,,3
 Forensic Lab,10,x1,CSI,Forensic Scientist,Detective,Federal Agent,Coroner,,5
 Fortune Teller,8,x2,Oracle,Genie,,,,,2
 Funeral Parlor,12,x2,Coroner,Gravedigger,Landscaper,,,,3
@@ -155,5 +155,5 @@ UTO-NURV Hangar,10,x1,Tech Magnate,Mecha Pilot,Mecha Mechanic,Robo Caller,Keyboa
 Warrior Temple,10,x1,Gladiator,Hermit,Sculptor,Sun Priest,Warrior,,5
 Wedding Chapel,4,x2,Newlywed,,,,,,1
 Weddings R Us,10,x1,Wedding Planner,Photographer,Tailor,Wedding Singer,Jeweller,,5
-Winter Fort,6,x1,Ice Lord,Viking,Guardian.,,,,3
+Winter Fort,6,x1,Ice Lord,Viking,Guardian,,,,3
 Wooded Cabin,12,x1,Jungle Dweller,Big Bad Wolf,Hooded Rider,Dwarf,Shoe Maker,Forester,6
