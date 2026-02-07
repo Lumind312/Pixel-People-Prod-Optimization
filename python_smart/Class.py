@@ -1,20 +1,3 @@
-class Job:
-	# buildings_list = []
-	# remaining = 0		# how many people we have left
-	# name = ''			# irrelevant. used for print
-
-	def __init__(self, num=0, name = ''):
-		# self.buildings_list = [[0,0,'']] * num
-		self.remaining = num
-		self.name = name
-
-	def __str__(self):
-		return self.str()
-	
-	def available(self) -> bool:
-		return self.remaining > 0
-	
-
 class Building:
 	# cps = 0
 	# multiplier = 0
@@ -58,24 +41,23 @@ class Building:
 			time1 = 1
 			time2 = 1
 
-		# maxCPS, then multiplier, then time, then name
-
-		if b1.maxCPS == b2.maxCPS:
-			if b1.multiplier == b2.multiplier:
-				if time1 == time2:
-					return b1.name < b2.name
-				return time1 < time2
-			return b1.multiplier < b2.multiplier
-		return b1.maxCPS < b2.maxCPS
+		# multiplier, then filled buildings, then time, then name
+		if b1.multiplier == b2.multiplier:
+			if ('_' in b1.name and '_' in b2.name) or ('_' not in b1.name and '_' not in b2.name):
+					if time1 == time2:
+						return b1.name < b2.name
+					return time1 < time2
+			return '_' in b2.name
+		return b1.multiplier < b2.multiplier
 	
 	def set_workers(self, names) -> None:
-		self.workers.append(names)
+		self.workers = list(names)
 		self.cps = self.multiplier * len(self.workers)
 
 
 
 # simple=False for full building print
-def print_blist(blist, simple=True):
+def print_blist(blist: list, simple=True):
 	total_sum = 0
 	sums = {}
 	for i in range(1, 9):
@@ -91,13 +73,16 @@ def print_blist(blist, simple=True):
 			print(blist[i].id, blist[i])
 
 		total_sum += blist[i].cps
-		# sums[blist[i].maxCPS] += blist[i].cps
+		sums[blist[i].maxCPS] += blist[i].cps
 		total_workers += len(blist[i].workers)
 
+	cps = []
+	if not simple:
+		for i in sums:
+			if sums[i] > 0:
+				cps.append((i, sums[i]))
+	cps.sort(reverse=True)
+	print('\n'.join([str(x[0]) + ' : ' + str(x[1]) for x in cps]))
 	print('\nBuildings:', len(blist), '| People:', total_workers)
 	print("Final CPS:", total_sum)
 	print()
-
-def print_pmap(qpmap):
-	for i in qpmap.keys():
-		print(i, qpmap[i])
